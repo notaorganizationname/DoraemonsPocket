@@ -147,10 +147,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     //跳转登录界面
                     startActivity(new Intent(getActivity(),LoginActivity.class));
                     getActivity().finish();
-<<<<<<< HEAD
-=======
-                    getActivity().overridePendingTransition(R.anim.in_from_right,R.anim.out_to_left);
->>>>>>> 1f23b077490abbe20f275803eddfa49e3b3d1a3a
+//                    getActivity().overridePendingTransition(R.anim.in_from_right,R.anim.out_to_left);
                 }
                 break;
         }

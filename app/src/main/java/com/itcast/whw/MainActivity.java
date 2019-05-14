@@ -1,12 +1,10 @@
 package com.itcast.whw;
 
-<<<<<<< HEAD
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-=======
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -19,7 +17,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
->>>>>>> 1f23b077490abbe20f275803eddfa49e3b3d1a3a
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
@@ -29,11 +26,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-<<<<<<< HEAD
-=======
-import android.widget.Toast;
->>>>>>> 1f23b077490abbe20f275803eddfa49e3b3d1a3a
-
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.ashokvarma.bottomnavigation.TextBadgeItem;
@@ -45,10 +37,7 @@ import com.itcast.whw.adapter.SectionPageAdapter;
 import com.itcast.whw.fragment.HomeFragment;
 import com.itcast.whw.fragment.MineFragment;
 import com.itcast.whw.fragment.ToolFragment;
-<<<<<<< HEAD
-=======
 import com.itcast.whw.tool.PermissionPageUtils;
->>>>>>> 1f23b077490abbe20f275803eddfa49e3b3d1a3a
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -130,8 +119,6 @@ public class MainActivity extends BaseActivity {
 
             }
         });
-<<<<<<< HEAD
-=======
 
         if(ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
@@ -158,7 +145,6 @@ public class MainActivity extends BaseActivity {
                             .show();
                 }
         }
->>>>>>> 1f23b077490abbe20f275803eddfa49e3b3d1a3a
     }
 
     @Override

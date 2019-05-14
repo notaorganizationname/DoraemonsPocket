@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:padding="30dp"
+    android:layout_height="match_parent">
+
+    <SeekBar
+        android:id="@+id/paint_seekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/paint_tv"
+        android:layout_marginTop="25dp"
+        android:layout_below="@id/paint_seekBar"
+        android:text="画笔粗细:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/paint_thick"
+        android:layout_alignBottom="@id/paint_tv"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/paint_tv"
+        android:text="20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

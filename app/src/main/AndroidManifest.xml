@@ -17,14 +17,13 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"  
+        android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="YAAClBTCguqnUXb8g2yMEZBYlvtp6PBi" />
 
         <activity android:name=".MainActivity">
-
              <intent-filter>
              <action android:name="android.intent.action.MAIN" />
 
@@ -53,6 +52,10 @@
         <activity android:name=".activity.net_img.NetWormActivity"></activity>
         <activity android:name=".activity.net_img.NetImgsActivity" />
         <activity android:name=".activity.net_img.ImgDisplayActivity" android:theme="@style/NoActionBarDialog"></activity>
+        <activity
+            android:name=".activity.currency_conversion.CurrencyConversionActivity"
+            android:label="汇率转换" />
+        <activity android:name=".activity.drawing_board.DrawingBoardActivity" android:label="画图"/>
     </application>
 
 </manifest>

@@ -101,6 +101,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 SharedPreferences.Editor editor = sp.edit().putBoolean("isVisitors", true);
                 editor.apply();
                 startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                finish();
+                overridePendingTransition(R.anim.finish_in,R.anim.finish_to);
                 break;
             case R.id.tv_register:
                 //点击注册按钮，跳转注册界面

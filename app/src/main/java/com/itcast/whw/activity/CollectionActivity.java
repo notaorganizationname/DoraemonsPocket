@@ -105,7 +105,8 @@ public class CollectionActivity extends AppCompatActivity implements View.OnClic
             strList.add("表情制作");
             strList.add("付费音乐下载");
             strList.add("红包");
-            strList.add("汇率");
+            strList.add("汇率转换");
+            strList.add("画图");
     }
 
     @Override
@@ -128,6 +129,7 @@ public class CollectionActivity extends AppCompatActivity implements View.OnClic
                 editor.apply();
                 startActivity(intent);
                 finish();
+                overridePendingTransition(R.anim.fade_in_all,R.anim.fade_out_all);
                 break;
         }
     }

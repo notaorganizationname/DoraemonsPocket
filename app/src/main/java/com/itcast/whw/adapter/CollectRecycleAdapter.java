@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.itcast.whw.MainActivity;
 import com.itcast.whw.R;
 import com.itcast.whw.activity.search_near.NearMapActivity;
+import com.itcast.whw.tool.FunctionTool;
 import com.itcast.whw.tool.LogUtil;
 
 import java.util.ArrayList;
@@ -128,10 +129,7 @@ public class CollectRecycleAdapter extends RecyclerView.Adapter<CollectRecycleAd
                 public void onClick(View view) {
                     String collect_text = holder.collect_function.getText().toString();
                     Log.d("CollectRecycleAdapter", collect_text);
-                    if(collect_text.equals("查看附近")){
-                        Activity activity = (Activity) context;
-                        activity.startActivity(new Intent(context,NearMapActivity.class));
-                    }
+                    FunctionTool.startActivity(context,collect_text);
                 }
             });
 
@@ -175,6 +173,7 @@ public class CollectRecycleAdapter extends RecyclerView.Adapter<CollectRecycleAd
                         Intent intent = new Intent(context, MainActivity.class);
                         activity.startActivity(intent);
                         activity.finish();
+                        ((Activity) context).overridePendingTransition(R.anim.fade_in_all2,R.anim.fade_out_all2);
                     }
                 }
             });

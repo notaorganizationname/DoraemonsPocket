@@ -106,6 +106,7 @@ public class CollectionActivity extends AppCompatActivity implements View.OnClic
             strList.add("付费音乐下载");
             strList.add("红包");
             strList.add("汇率");
+            strList.add("最近新闻");
     }
 
     @Override

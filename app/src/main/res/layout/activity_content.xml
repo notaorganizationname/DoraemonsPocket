@@ -5,22 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.recent_news.NewsActivity">
+    tools:context=".activity.recent_news.ContentActivity">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/news_toolbar"
+        android:id="@+id/news_content_bar"
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
     </android.support.v7.widget.Toolbar>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/news_recycle"
+    <WebView
+        android:id="@+id/news_web_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </android.support.v7.widget.RecyclerView>
-
+        android:layout_height="match_parent">
+    </WebView>
 
 </LinearLayout>

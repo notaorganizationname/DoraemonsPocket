@@ -1,10 +1,17 @@
 package com.itcast.whw;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
@@ -14,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
@@ -26,6 +34,7 @@ import com.itcast.whw.adapter.SectionPageAdapter;
 import com.itcast.whw.fragment.HomeFragment;
 import com.itcast.whw.fragment.MineFragment;
 import com.itcast.whw.fragment.ToolFragment;
+import com.itcast.whw.tool.PermissionPageUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -107,6 +116,32 @@ public class MainActivity extends BaseActivity {
 
             }
         });
+
+        if(ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull final String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case 1:
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+
+                }else{
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setTitle("提示")
+                            .setMessage("存储权限请求被拒绝，这将会导致应用可能无法正常使用，是否前往设置页面手动赋予权限?")
+                            .setPositiveButton("手动授权", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    PermissionPageUtils permissionPageUtils = new PermissionPageUtils(MainActivity.this);
+                                    permissionPageUtils.jumpPermissionPage();
+                                }
+                            })
+                            .show();
+                }
+        }
     }
 
     @Override

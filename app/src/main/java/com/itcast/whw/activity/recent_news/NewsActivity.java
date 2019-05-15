@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.itcast.whw.R;
 import com.itcast.whw.adapter.NewsRecycleAdapter;
+import com.itcast.whw.adapter.SocialNewsRecycleAdapter;
 
 import java.io.IOException;
 import java.util.List;
@@ -32,21 +33,31 @@ import okhttp3.Response;
 
 public class NewsActivity extends AppCompatActivity {
 
-    private static final int SUCCESSED = 1;
+    private static final int TOP = 1;
+    private static final int SOCIAL = 2;
     private boolean isAutoPlay;     //标识是否自动图片轮播
     private RecyclerView news_recycle;
     private OkHttpClient okHttpClient;
-    private List<News.ResultBean.DataBean> newsData;
+    private List<News.ResultBean.DataBean> top_news_data;
+    private List<News.ResultBean.DataBean> social_news_data;
 
     //给recycleview设置数据
     private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message message) {
-            if (message.what == SUCCESSED) {
-                NewsRecycleAdapter newsRecycleAdapter = new NewsRecycleAdapter(newsData, NewsActivity.this);
+            if (message.what == TOP) {
+                NewsRecycleAdapter newsRecycleAdapter = new NewsRecycleAdapter(top_news_data, NewsActivity.this);
                 news_recycle.setAdapter(newsRecycleAdapter);
                 //可以左右滑动
-                news_recycle.scrollToPosition(newsData.size());
+                news_recycle.scrollToPosition(top_news_data.size());
+                newsRecycleAdapter.notifyDataSetChanged();
+            }else if (message.what == SOCIAL) {
+
+                SocialNewsRecycleAdapter newsRecycleAdapter = new SocialNewsRecycleAdapter(social_news_data, NewsActivity.this);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(NewsActivity.this);
+                layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                social_news_recycle.setLayoutManager(layoutManager);
+                social_news_recycle.setAdapter(newsRecycleAdapter);
                 newsRecycleAdapter.notifyDataSetChanged();
             }
             return false;
@@ -54,6 +65,7 @@ public class NewsActivity extends AppCompatActivity {
     });
     private Toolbar news_toolbar;
     private LinearLayoutManager linearLayoutManager;
+    private RecyclerView social_news_recycle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,10 +93,10 @@ public class NewsActivity extends AppCompatActivity {
                 position++;
                 //滑动到下一个item
                 news_recycle.smoothScrollToPosition(position);
-                mHandler.postDelayed(this,4200);
+                mHandler.postDelayed(this, 5000);
             }
         };
-        mHandler.postDelayed(runnable,4000);
+        mHandler.postDelayed(runnable, 5000);
 
 
         news_recycle.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -95,9 +107,9 @@ public class NewsActivity extends AppCompatActivity {
                 super.onScrollStateChanged(recyclerView, newState);
 
                 if (newState == recyclerView.SCROLL_STATE_IDLE) {    //静止状态
-                    if (isAutoPlay){
+                    if (isAutoPlay) {
                         //开启线程
-                        mHandler.postDelayed(runnable, 4000);
+                        mHandler.postDelayed(runnable, 5000);
                         isAutoPlay = false;
                     }
                 } else if (newState == recyclerView.SCROLL_STATE_DRAGGING) {   //拖拽状态
@@ -105,7 +117,6 @@ public class NewsActivity extends AppCompatActivity {
                     mHandler.removeCallbacks(runnable);
                     isAutoPlay = true;
                 } else if (newState == recyclerView.SCROLL_STATE_SETTLING) {   //手指离开后的惯性滚动状态
-                    Log.d("NewsActivity", "setting:" + newState + "---recycleView手指离开后的惯性滚动状态");
                 }
             }
 
@@ -121,10 +132,30 @@ public class NewsActivity extends AppCompatActivity {
     private void initNewsData() {
         //联网获取新闻数据
         okHttpClient = new OkHttpClient();
-        Request request = new Request.Builder()
+
+        //头条新闻
+        Request top_news_request = new Request.Builder()
                 .url("http://v.juhe.cn/toutiao/index?type=top&key=c2b7616d5db40a27bd5d99240aa719c7")
                 .build();
 
+        //社会新闻
+        Request social_news_request = new Request.Builder()
+                .url("http://v.juhe.cn/toutiao/index?type=shehui&key=c2b7616d5db40a27bd5d99240aa719c7")
+                .build();
+
+        //请求新闻数据
+        requestData(top_news_request,TOP);
+        requestData(social_news_request,SOCIAL);
+
+    }
+
+    /**
+     * 请求新闻数据
+     * @param request
+     * @param request_code
+     * @return
+     */
+    private void requestData(Request request, final int request_code) {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -133,28 +164,35 @@ public class NewsActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if (response != null) {
+                if (response != null&&response.isSuccessful()) {
                     String newsJson = response.body().string();
                     Log.d("NewsActivity", newsJson);
 
                     Gson gson = new Gson();
                     News news = gson.fromJson(newsJson, News.class);
-                    newsData = news.getResult().getData();
-                    Log.d("NewsActivity", "newsData.size():" + newsData.size());
-                    if (newsData != null) {
-                        for (News.ResultBean.DataBean n : newsData) {
-                            Log.d("NewsActivity", n.getTitle());
+                    if(request_code==TOP){
+                        top_news_data = news.getResult().getData();
+                        if(top_news_data!=null){
+                            Message message = Message.obtain();
+                            message.what = TOP;
+                            mHandler.sendMessage(message);
+                            Log.d("NewsActivity", "top_news_data.size():" + top_news_data.size());
                         }
-                        Message message = Message.obtain();
-                        message.what = SUCCESSED;
-                        mHandler.sendMessage(message);
-                        response.close();
+                    }else if(request_code==SOCIAL){
+                        social_news_data = news.getResult().getData();
+                        if(social_news_data!=null){
+                            Message message = Message.obtain();
+                            message.what = SOCIAL;
+                            mHandler.sendMessage(message);
+                            Log.d("NewsActivity", "social_news_data.size():" + social_news_data.size());
+                        }
                     }
+
+                    response.close();
                 }
 
             }
         });
-
     }
 
     /**
@@ -162,6 +200,7 @@ public class NewsActivity extends AppCompatActivity {
      */
     private void initView() {
         news_recycle = (RecyclerView) findViewById(R.id.news_recycle);
+        social_news_recycle = (RecyclerView) findViewById(R.id.social_news_recycle);
         linearLayoutManager = new MyLinearLayoutManager(NewsActivity.this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         news_recycle.setLayoutManager(linearLayoutManager);
@@ -171,9 +210,10 @@ public class NewsActivity extends AppCompatActivity {
 
         setSupportActionBar(news_toolbar);
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar!=null){
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
 
     }
 
@@ -206,7 +246,7 @@ public class NewsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
-        if(itemId==android.R.id.home){
+        if (itemId == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);

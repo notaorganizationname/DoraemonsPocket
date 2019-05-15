@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@drawable/gray_solid"
+    android:layout_height="120dp">
+
+    <ImageView
+        android:id="@+id/social_news_img"
+        android:layout_width="160dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/dp_10"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_launcher_background" />
+
+    <TextView
+        android:id="@+id/social_news_title"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="12dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="test title"
+        android:textColor="#e47268"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/socialNews_author_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/social_news_img"
+        android:layout_marginLeft="8dp"
+        android:text="author_name"
+        android:textColor="#e47268"
+        android:textSize="@dimen/dp_10" />
+
+    <TextView
+        android:id="@+id/social_news_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/social_news_img"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_toRightOf="@id/socialNews_author_name"
+        android:text="news_date"
+        android:textColor="#e47268"
+        android:textSize="@dimen/dp_10" />
+
+</RelativeLayout>

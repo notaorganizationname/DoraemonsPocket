@@ -22,5 +22,21 @@
 
     </android.support.v7.widget.RecyclerView>
 
+    <TextView
+        android:id="@+id/news_title"
+        android:text="社 会 新 闻"
+        android:background="#f1493a"
+        android:textColor="#fff"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="35dp" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/social_news_recycle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
+
 
 </LinearLayout>
